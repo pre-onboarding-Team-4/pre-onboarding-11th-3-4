@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useEffect, useReducer } from 'react';
 import { Issue, fetchIssues } from './apis/issues';
 
 interface IssueContextProps {
@@ -6,25 +6,47 @@ interface IssueContextProps {
   isLoading: boolean;
 }
 
-export const IssueContext = createContext<IssueContextProps>({
+interface Action {
+  type: string;
+  payload?: Issue[];
+}
+
+const initialState: IssueContextProps = {
   issues: [],
   isLoading: true,
-});
+};
+
+const reducer = (state: IssueContextProps, action: Action): IssueContextProps => {
+  switch (action.type) {
+    case 'FETCH_ISSUES_SUCCESS':
+      return {
+        ...state,
+        issues: action.payload || [],
+        isLoading: false,
+      };
+    case 'FETCH_ISSUES_FAILURE':
+      return {
+        ...state,
+        isLoading: false,
+      };
+    default:
+      return state;
+  }
+};
+
+export const IssueContext = createContext<IssueContextProps>(initialState);
 
 export function IssueProvider({ children }: React.PropsWithChildren<object>) {
-  const [issues, setIssues] = useState<Issue[]>([]);
-  const [isLoading, setLoading] = useState<boolean>(true);
-  // const [page, setPage] = useState<number>(1);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const fetchData = async (): Promise<void> => {
     try {
       const data = await fetchIssues(1);
       console.log(data);
-      setIssues(data);
-      setLoading(false);
+      dispatch({ type: 'FETCH_ISSUES_SUCCESS', payload: data });
     } catch (error) {
       console.error(error);
-      setLoading(false);
+      dispatch({ type: 'FETCH_ISSUES_FAILURE' });
     }
   };
 
@@ -32,7 +54,5 @@ export function IssueProvider({ children }: React.PropsWithChildren<object>) {
     fetchData();
   }, []);
 
-  const contextValue = useMemo(() => ({ issues, isLoading }), [issues, isLoading]);
-
-  return <IssueContext.Provider value={contextValue}>{children}</IssueContext.Provider>;
+  return <IssueContext.Provider value={state}>{children}</IssueContext.Provider>;
 }
