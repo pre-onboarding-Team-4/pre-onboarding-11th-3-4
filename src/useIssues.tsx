@@ -11,6 +11,9 @@ const queryParam: GetIssuesQueryParam = { sort: 'comments', page: PAGE, per_page
 
 export function useIssues() {
   const context = useContext(IssuesContext);
+
+  if (!context) throw new Error('IssuesContextProvider를 찾을 수 없습니다!');
+
   const { issueList, setIssueList } = context;
 
   const fetchIssues = async () => {

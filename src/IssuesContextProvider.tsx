@@ -5,14 +5,10 @@ interface IssuesContextProviderProps {
   children: ReactNode;
 }
 
-// TODO: 에러 던지기
-export const IssuesContext = createContext<{
+export const IssuesContext = createContext<null | {
   issueList: IssueListSchema;
   setIssueList: React.Dispatch<React.SetStateAction<IssueListSchema>>;
-}>({
-  issueList: [],
-  setIssueList: () => {},
-});
+}>(null);
 
 export default function IssuesContextProvider({ children }: IssuesContextProviderProps) {
   const [issueList, setIssueList] = useState<IssueListSchema>([]);
