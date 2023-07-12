@@ -1,14 +1,12 @@
 import { Dispatch, createContext, useContext, useReducer } from 'react';
 
-//이슈번호, 이슈제목, 작성자, 작성일, 코멘트수
-
 export type issue = {
   issueNum: number;
   issueTitle: string;
   user: string;
   created_at: number;
   comments: number;
-  body : string;
+  body: string;
 };
 
 export type issueType = {
@@ -37,7 +35,6 @@ function IssueReducer(state: issueType, action: issueAction): issueType {
         load: true,
       };
     case 'GET_SUCCESS':
-      console.log(state.issueList, action.data, action);
       return {
         ...state,
         issueList:

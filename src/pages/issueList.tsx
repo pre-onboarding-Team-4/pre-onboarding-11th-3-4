@@ -3,7 +3,7 @@ import { getIssue } from '../apis/axios';
 import { useIssueDispatch, useIssueState } from '../context/issueContext';
 import Loading from '../components/loading';
 function IssueList() {
-  const issue = useIssueState().issueList;
+  //const issue = useIssueState().issueList;
   const load = useIssueState().load;
   const dispatch = useIssueDispatch();
 
@@ -11,7 +11,6 @@ function IssueList() {
     dispatch({ type: 'LOADING' });
     try {
       const res = await getIssue();
-      //console.log(res);
       if (res.status === 200) {
         dispatch({ type: 'GET_SUCCESS', data: res.data });
       }
