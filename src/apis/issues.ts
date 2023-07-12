@@ -17,7 +17,7 @@ export type IssueSchema = {
   body: string;
 };
 
-export type IssueListSchema = Omit<IssueSchema, 'avatar_url' | 'body'>[];
+export type IssueListSchema = IssueSchema[];
 
 // api
 const getIssueList: (
