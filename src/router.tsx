@@ -2,7 +2,7 @@ import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import Home from './pages/Home';
 import Detail from './pages/Detail';
-import { IssueProvider } from './IssueContext';
+import { IssueProvider } from './context/IssueContext';
 
 const route = [
   {

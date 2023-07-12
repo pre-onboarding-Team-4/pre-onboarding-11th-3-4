@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { IssueContext } from '../IssueContext';
+import { IssueContext } from '../context/IssueContext';
 import styled from 'styled-components';
 import { BiMessageAlt } from 'react-icons/bi';
 import InfiniteScroll from '../components/InfiniteScroll';

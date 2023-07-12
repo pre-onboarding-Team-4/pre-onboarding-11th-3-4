@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useReducer } from 'react';
-import { Issue, fetchIssues } from './apis/issues';
+import { Issue, fetchIssues } from '../apis/issues';
 
 interface IssueContextProps {
   issues: Issue[];
@@ -36,14 +36,14 @@ const reducer = (state: IssueContextProps, action: Action): IssueContextProps =>
 
 export const IssueContext = createContext<IssueContextProps>(initialState);
 
-export function IssueProvider({ children }: React.PropsWithChildren<object>) {
+export function IssueProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const fetchData = async (): Promise<void> => {
     try {
-      const data = await fetchIssues(1);
-      console.log(data);
-      dispatch({ type: 'FETCH_ISSUES_SUCCESS', payload: data });
+      const payload = await fetchIssues(1);
+      console.log(payload);
+      dispatch({ type: 'FETCH_ISSUES_SUCCESS', payload });
     } catch (error) {
       console.error(error);
       dispatch({ type: 'FETCH_ISSUES_FAILURE' });
