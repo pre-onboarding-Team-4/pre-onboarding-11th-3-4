@@ -9,6 +9,7 @@ type GetIssuesPathParam = { owner: string; repo: string };
 // response data type
 export type IssueSchema = {
   id: number;
+  number: number;
   title: string;
   userId: string;
   createdAt: string;
