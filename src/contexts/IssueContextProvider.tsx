@@ -1,5 +1,5 @@
 import React, { ReactNode, createContext, useState } from 'react';
-import { IssueSchema } from './apis/issues';
+import { IssueSchema } from '../apis/issues';
 
 interface IssueContextProviderProps {
   children: ReactNode;

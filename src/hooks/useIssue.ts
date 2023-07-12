@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
-import { GetIssuePathParam, getIssue } from './apis/issues';
-import { IssueContext } from './IssueContextProvider';
+import { GetIssuePathParam, getIssue } from '../apis/issues';
+import { IssueContext } from '../contexts/IssueContextProvider';
 import { useIssues } from './useIssues';
 
 const pathParam: GetIssuePathParam = { repo: 'react', owner: 'facebook', issue_number: 0 };
