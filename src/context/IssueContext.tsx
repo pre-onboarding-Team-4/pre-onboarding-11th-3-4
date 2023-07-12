@@ -42,7 +42,6 @@ export function IssueProvider({ children }: { children: React.ReactNode }) {
   const fetchData = async (): Promise<void> => {
     try {
       const payload = await fetchIssues(1);
-      console.log(payload);
       dispatch({ type: 'FETCH_ISSUES_SUCCESS', payload });
     } catch (error) {
       console.error(error);

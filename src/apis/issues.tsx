@@ -1,18 +1,28 @@
 import { instance } from './axios';
 
-type User = {
+interface User {
   login: string;
   id: number;
-};
+}
 
-export type Issue = {
+export interface Issue {
   id: number;
   title: string;
   comments: number;
   number: number;
   created_at: string;
   user: User;
-};
+}
+
+export interface IssueDetail {
+  number: number;
+  title: string;
+  author: string;
+  writingDate: string;
+  numComments: number;
+  authorProfileImage: string;
+  text: string;
+}
 
 const owner = 'facebook';
 const repo = 'react';
@@ -27,6 +37,15 @@ export const fetchIssues = async (page: number): Promise<Issue[]> => {
         },
       },
     );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchIssueDetail = async (number: number): Promise<IssueDetail[]> => {
+  try {
+    const response = await instance.get(`/repos/${owner}/${repo}/issues/${number}`);
     return response.data;
   } catch (error) {
     throw error;
