@@ -27,5 +27,5 @@ export const getIssue = async () => {
       per_page: 10,
     },
   });
-  return console.log(res.data);
+  return res.data;
 };
