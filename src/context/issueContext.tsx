@@ -8,6 +8,7 @@ export type issue = {
   user: string;
   created_at: number;
   comments: number;
+  body : string;
 };
 
 export type issueType = {

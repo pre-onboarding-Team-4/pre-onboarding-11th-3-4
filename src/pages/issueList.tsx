@@ -7,8 +7,6 @@ function IssueList() {
   const load = useIssueState().load;
   const dispatch = useIssueDispatch();
 
-  console.log(issue);
-
   const issueGet = async () => {
     dispatch({ type: 'LOADING' });
     try {
