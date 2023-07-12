@@ -18,8 +18,8 @@ export function useIssues() {
   const [isLoading, setIsLoading] = useState(false);
 
   const fetchIssues = async () => {
-    const res = await getIssueList(pathParam, queryParam);
     setIsLoading(true);
+    const res = await getIssueList(pathParam, queryParam);
     setIssueList(res);
     setIsLoading(false);
   };
