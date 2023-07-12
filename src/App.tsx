@@ -2,16 +2,18 @@ import React from 'react';
 import { RouterProvider } from 'react-router-dom';
 import router from './router';
 import { GlobalStyle } from './GlobalStyle';
-
-// const StyledApp = styled.div`
-//   color: ${palette.text};
-// `;
+import IssuesContextProvider from './IssuesContextProvider';
+import IssueContextProvider from './contexts/IssueContextProvider';
 
 function App() {
   return (
     <>
       <GlobalStyle />
-      <RouterProvider router={router} />
+      <IssuesContextProvider>
+        <IssueContextProvider>
+          <RouterProvider router={router} />
+        </IssueContextProvider>
+      </IssuesContextProvider>
     </>
   );
 }
