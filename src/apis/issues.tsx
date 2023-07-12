@@ -3,6 +3,7 @@ import { instance } from './axios';
 interface User {
   login: string;
   id: number;
+  avatar_url: string;
 }
 
 export interface Issue {
@@ -15,13 +16,13 @@ export interface Issue {
 }
 
 export interface IssueDetail {
-  number: number;
+  number: string;
   title: string;
   author: string;
-  writingDate: string;
-  numComments: number;
-  authorProfileImage: string;
-  text: string;
+  created_at: string;
+  comments: number;
+  body: string;
+  user: User;
 }
 
 const owner = 'facebook';
@@ -43,7 +44,7 @@ export const fetchIssues = async (page: number): Promise<Issue[]> => {
   }
 };
 
-export const fetchIssueDetail = async (number: number): Promise<IssueDetail[]> => {
+export const fetchIssueDetail = async (number: string): Promise<IssueDetail[]> => {
   try {
     const response = await instance.get(`/repos/${owner}/${repo}/issues/${number}`);
     return response.data;

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { BiMessageAlt } from 'react-icons/bi';
 import InfiniteScroll from '../components/InfiniteScroll';
 import { Issue } from '../apis/issues';
+import { Link } from 'react-router-dom';
 
 function Times(date: number) {
   let times;
@@ -37,7 +38,7 @@ function Home() {
           return (
             <Issues key={issue.id}>
               <Item>
-                <IssueLink>{issue.title}</IssueLink>
+                <Link to={`/issues/${issue.number}`}>{issue.title}</Link>
                 <OpenedBy>
                   #{issue.number} opened {Times(timeDifference)} by {issue.user.login}
                 </OpenedBy>
@@ -66,7 +67,7 @@ const Issues = styled.li`
 
 const Item = styled.div``;
 
-const IssueLink = styled.span``;
+// const IssueLink = styled(Link)``;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const OpenedBy = styled.span`

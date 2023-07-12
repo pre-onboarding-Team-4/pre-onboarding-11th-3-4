@@ -1,9 +1,10 @@
-import React, { createContext, useEffect, useReducer } from 'react';
+import React, { createContext, useReducer, useMemo } from 'react';
 import { fetchIssueDetail, IssueDetail } from '../apis/issues';
 
 interface DetailContextProps {
   issueDetails: IssueDetail[];
   isLoading: boolean;
+  fetchData: (issueNumber: string) => Promise<void>;
 }
 
 interface Action {
@@ -14,6 +15,7 @@ interface Action {
 const initialState: DetailContextProps = {
   issueDetails: [],
   isLoading: true,
+  fetchData: async () => {},
 };
 
 const reducer = (state: DetailContextProps, action: Action): DetailContextProps => {
@@ -39,9 +41,10 @@ export const DetailContext = createContext<DetailContextProps>(initialState);
 export function DetailProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const fetchData = async (issueNumber: number): Promise<void> => {
+  const fetchData = async (issueNumber: string): Promise<void> => {
     try {
       const payload = await fetchIssueDetail(issueNumber);
+      console.log(payload);
       dispatch({ type: 'FETCH_ISSUE_DETAILS_SUCCESS', payload });
     } catch (error) {
       console.error(error);
@@ -49,9 +52,7 @@ export function DetailProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
-  useEffect(() => {
-    fetchData(13991);
-  }, []);
+  const value = useMemo(() => ({ ...state, fetchData }), [state, fetchData]);
 
-  return <DetailContext.Provider value={state}>{children}</DetailContext.Provider>;
+  return <DetailContext.Provider value={value}>{children}</DetailContext.Provider>;
 }

@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useReducer } from 'react';
 import { Issue, fetchIssues } from '../apis/issues';
+import { DetailProvider } from './detailContext';
 
 interface IssueContextProps {
   issues: Issue[];
@@ -53,5 +54,9 @@ export function IssueProvider({ children }: { children: React.ReactNode }) {
     fetchData();
   }, []);
 
-  return <IssueContext.Provider value={state}>{children}</IssueContext.Provider>;
+  return (
+    <IssueContext.Provider value={state}>
+      <DetailProvider>{children}</DetailProvider>
+    </IssueContext.Provider>
+  );
 }
