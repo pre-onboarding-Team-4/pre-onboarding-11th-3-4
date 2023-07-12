@@ -1,9 +1,6 @@
-import React from "react";
+import React from 'react';
 
 function IssueItem() {
-
-    return(
-        <div></div>
-    )
+  return <div></div>;
 }
 export default IssueItem;

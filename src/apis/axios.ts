@@ -19,3 +19,13 @@ instance.interceptors.request.use(
     return Promise.reject(error);
   },
 );
+
+export const getIssue = async () => {
+  const res = await instance.get('', {
+    params: {
+      sort: 'comments',
+      per_page: 10,
+    },
+  });
+  return console.log(res.data);
+};
