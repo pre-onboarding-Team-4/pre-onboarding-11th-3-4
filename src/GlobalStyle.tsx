@@ -5,7 +5,6 @@ import { createGlobalStyle } from 'styled-components';
 export const GlobalStyle = createGlobalStyle`
 
 #root {
-  background-color: red;
   width: 100%;
   max-width: 1024px;
   padding: 0 16px;
