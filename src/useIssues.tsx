@@ -21,5 +21,11 @@ export function useIssues() {
     setIssueList(res);
   };
 
-  return { issueList, fetchIssues };
+  const fetchMoreIssues = async () => {
+    const NEXT_PAGE = Math.floor(issueList.length / PER_PAGE) + 1;
+    const res = await getIssueList(pathParam, { ...queryParam, page: NEXT_PAGE });
+    setIssueList([...issueList, ...res]);
+  };
+
+  return { issueList, fetchIssues, fetchMoreIssues };
 }
