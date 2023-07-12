@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { GetIssuePathParam, getIssue } from './apis/issues';
 import { IssueContext } from './IssueContextProvider';
 import { useIssues } from './useIssues';
@@ -12,6 +12,7 @@ export function useIssue() {
 
   const { issue, setIssue } = context;
   const { issueList } = useIssues();
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchIssue = async (issueNumber: number) => {
     if (!!issue && issue.number === issueNumber) {
@@ -25,9 +26,11 @@ export function useIssue() {
       }
     }
 
+    setIsLoading(true);
     const res = await getIssue({ ...pathParam, issue_number: issueNumber });
     setIssue(res);
+    setIsLoading(false);
   };
 
-  return { issue, fetchIssue };
+  return { issue, fetchIssue, isLoading };
 }

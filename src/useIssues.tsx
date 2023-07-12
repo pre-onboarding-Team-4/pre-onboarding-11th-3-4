@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { IssuesContext } from './IssuesContextProvider';
 import { GetIssuesPathParam, GetIssuesQueryParam, getIssueList } from './apis/issues';
 
@@ -15,17 +15,22 @@ export function useIssues() {
   if (!context) throw new Error('IssuesContextProvider를 찾을 수 없습니다!');
 
   const { issueList, setIssueList } = context;
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchIssues = async () => {
     const res = await getIssueList(pathParam, queryParam);
+    setIsLoading(true);
     setIssueList(res);
+    setIsLoading(false);
   };
 
   const fetchMoreIssues = async () => {
     const NEXT_PAGE = Math.floor(issueList.length / PER_PAGE) + 1;
+    setIsLoading(true);
     const res = await getIssueList(pathParam, { ...queryParam, page: NEXT_PAGE });
     setIssueList([...issueList, ...res]);
+    setIsLoading(false);
   };
 
-  return { issueList, fetchIssues, fetchMoreIssues };
+  return { issueList, fetchIssues, fetchMoreIssues, isLoading };
 }
