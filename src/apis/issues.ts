@@ -31,7 +31,7 @@ const getIssueList: (
   return res.data as IssueListSchema;
 };
 
-type GetIssuePathParam = { owner: string; repo: string; issue_number: number };
+export type GetIssuePathParam = { owner: string; repo: string; issue_number: number };
 
 const getIssue: (pathParam: GetIssuePathParam) => Promise<IssueSchema> = async (pathParam) => {
   const { owner, repo, issue_number } = pathParam;
