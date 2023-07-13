@@ -1,9 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useIssue } from '../hooks/useIssue';
 import IssueDetail from '../components/IssueDetail';
 import Loading from '../components/Loading';
 import { styled } from 'styled-components';
+import ErrorComp from '../components/Error';
+import { AxiosError } from 'axios';
 
 export default function IssueDetailPage() {
   const owner = process.env.REACT_APP_OWNER;
@@ -14,9 +16,29 @@ export default function IssueDetailPage() {
 
   const { issue, fetchIssue, isLoading } = useIssue();
 
+  const [error, setError] = useState('34346344634');
+
   useEffect(() => {
-    fetchIssue(Number(id));
+    (async () => {
+      try {
+        await fetchIssue(Number(id));
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          setError(error.response?.data.message ?? 'Sorry, Unknown Error');
+        } else {
+          setError('Sorry, Unknown error');
+        }
+      }
+    })();
   }, []);
+
+  if (error) {
+    return (
+      <StyledIssueDetailPage>
+        <ErrorComp message={error} />
+      </StyledIssueDetailPage>
+    );
+  }
 
   return (
     <StyledIssueDetailPage>

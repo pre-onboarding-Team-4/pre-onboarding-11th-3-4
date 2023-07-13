@@ -8,7 +8,6 @@ const route = [
   {
     path: '',
     element: <CommonLayout />,
-    errorElement: <div>error</div>,
     children: [
       {
         path: '',

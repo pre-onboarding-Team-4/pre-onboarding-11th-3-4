@@ -4,6 +4,8 @@ import IssueList from '../components/IssueList';
 import useIntersectionObserver from '../hooks/useIntersectionObserver';
 import { styled } from 'styled-components';
 import Loading from '../components/Loading';
+import { AxiosError } from 'axios';
+import ErrorComp from '../components/Error';
 
 export default function IssueListPage() {
   const owner = process.env.REACT_APP_OWNER;
@@ -14,8 +16,22 @@ export default function IssueListPage() {
   const { fetchMoreIssues, fetchIssues, issueList, isLoading } = useIssues();
   const [page, setPage] = useState(1);
 
+  const [error, setError] = useState('');
+
+  const tryToFetchData = async (func: () => void) => {
+    try {
+      await func();
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setError(error.response?.data.message ?? 'Sorry, Unknown Error');
+      } else {
+        setError('Sorry, Unknown error');
+      }
+    }
+  };
+
   useEffect(() => {
-    fetchIssues();
+    tryToFetchData(fetchIssues);
   }, []);
 
   const target = useRef(null);
@@ -34,8 +50,12 @@ export default function IssueListPage() {
   }, []);
 
   useEffect(() => {
-    fetchMoreIssues();
+    tryToFetchData(fetchMoreIssues);
   }, [page]);
+
+  if (error) {
+    return <ErrorComp message={error} />;
+  }
 
   return (
     <StyledIssueListPlage>
