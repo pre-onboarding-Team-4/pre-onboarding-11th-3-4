@@ -9,8 +9,11 @@ export default function CommonLayout() {
 
   return (
     <>
-      Header
-      {owner}, {repo}
+      <header>
+        <h1>
+          {owner} / {repo}
+        </h1>
+      </header>
       <Outlet />
     </>
   );
