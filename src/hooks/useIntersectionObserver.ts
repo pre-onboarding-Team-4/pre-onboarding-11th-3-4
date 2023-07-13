@@ -7,11 +7,10 @@ export default function useIntersectionObserver(callback: () => void) {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             callback();
-            console.log('observe');
           }
         });
       },
-      { threshold: 1 },
+      { threshold: 0.5 },
     ),
   );
 
