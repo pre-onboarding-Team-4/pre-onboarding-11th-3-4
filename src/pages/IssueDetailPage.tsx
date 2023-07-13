@@ -1,8 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useIssue } from '../hooks/useIssue';
+import IssueDetail from '../components/IssueDetail';
 
-interface IssueDetailPageProps {}
+export default function IssueDetailPage() {
+  const owner = process.env.REACT_APP_OWNER;
+  const repo = process.env.REACT_APP_REPO;
+  const { id } = useParams<{ id: string }>();
 
-export default function IssueDetailPage(props: IssueDetailPageProps) {
-  console.log(props);
-  return <div>Issue</div>;
+  if (!owner || !repo) throw new Error('요구하는 환경 변수가 선언됐는지 확인해주세요');
+
+  const { issue, fetchIssue, isLoading } = useIssue();
+
+  useEffect(() => {
+    fetchIssue(Number(id));
+  }, []);
+
+  return <div>{!!issue && !isLoading ? <IssueDetail issue={issue} /> : <div>로딩중</div>}</div>;
 }
