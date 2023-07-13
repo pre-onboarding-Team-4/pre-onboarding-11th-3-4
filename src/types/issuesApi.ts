@@ -8,7 +8,7 @@ export type IssueSchema = {
   id: number;
   number: number;
   title: string;
-  createdAt: string;
+  created_at: string;
   comments: number;
   body: string;
   user: {
