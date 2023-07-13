@@ -16,7 +16,7 @@ export default function IssueDetailPage() {
 
   const { issue, fetchIssue, isLoading } = useIssue();
 
-  const [error, setError] = useState('34346344634');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     (async () => {
