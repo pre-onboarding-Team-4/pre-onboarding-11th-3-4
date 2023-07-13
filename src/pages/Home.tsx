@@ -13,10 +13,7 @@ const Home = () => {
   const handleScroll = useCallback(() => {
     const { scrollTop, offsetHeight } = document.documentElement;
 
-    console.log(window.innerHeight, scrollTop, offsetHeight);
-
     if (Math.ceil(window.innerHeight + scrollTop) >= offsetHeight) {
-      console.log('end');
       fetchMoreIssues();
     }
   }, [fetchMoreIssues]);
