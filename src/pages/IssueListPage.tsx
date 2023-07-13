@@ -20,16 +20,15 @@ function IssueListPage() {
     <div>
       {issueList.map(function (list, i) {
         return (
+          <>
           <div
-            key={i}
+            key={list.id}
             onClick={() => {
               navigate(`issues/${list.number}`);
             }}
           >
             <div>
-              <h4>
-                #{list.number} {list.title}
-              </h4>
+              <h4>#{list.number} {list.title}</h4>
             </div>
 
             <div>
@@ -39,6 +38,12 @@ function IssueListPage() {
               <div>코멘트:{list.comments}</div>
             </div>
           </div>
+          {((i+1) % 4 === 0) && (
+            <a href="https://www.wanted.co.kr/ " target="_blank">
+              <img src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fuserweb%2Flogo_wanted_black.png&w=110&q=100" />
+            </a>
+          )}
+          </>
         );
       })}
       {isLoading && <div>loading...</div>}
