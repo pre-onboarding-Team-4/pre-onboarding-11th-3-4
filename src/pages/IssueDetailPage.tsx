@@ -13,8 +13,6 @@ function IssueDetailPage() {
     return d.getFullYear() + '년 ' + (d.getMonth() + 1) + '월 ' + d.getDate() + '일 ';
   };
 
-  //console.log(issueList);
-
   useEffect(() => {
     fetchIssue(Number(id));
   }, []);
@@ -40,7 +38,7 @@ function IssueDetailPage() {
             </div>
           </div>
 
-          <ReactMarkdown remarkPlugins={[remarkMath]}>{issue.body}</ReactMarkdown> 
+          <ReactMarkdown remarkPlugins={[remarkMath]}>{issue.body}</ReactMarkdown>
         </div>
       ) : (
         <Loading />
