@@ -1,5 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
+import { palette } from '../palette';
+import { styled } from 'styled-components';
 
 export default function CommonLayout() {
   const owner = process.env.REACT_APP_OWNER;
@@ -9,12 +11,23 @@ export default function CommonLayout() {
 
   return (
     <>
-      <header>
-        <h1>
-          {owner} / {repo}
-        </h1>
-      </header>
+      <StyledHeader>
+        <a href="/">
+          <h1>
+            {owner} / {repo}
+          </h1>
+        </a>
+      </StyledHeader>
       <Outlet />
     </>
   );
 }
+
+const StyledHeader = styled.header`
+  width: fit-content;
+  padding: 10px;
+  margin: 10px 0px;
+  border-radius: 5px;
+  border: 1px solid ${palette.grey50};
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 75%, ${palette.blue} 15%);
+`;

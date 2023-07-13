@@ -4,6 +4,7 @@ import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 import { styled } from 'styled-components';
 import remarkGfm from 'remark-gfm';
 import { getFormatPassedDate } from './util';
+import { palette } from '../palette';
 
 interface IssueDetailProps {
   issue: IssueSchema;
@@ -39,6 +40,9 @@ const StyledIssueDetail = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  border-radius: 5px;
+  padding: 10px;
+  border: 1px solid ${palette.grey50};
 `;
 
 const StyledHeader = styled.div`

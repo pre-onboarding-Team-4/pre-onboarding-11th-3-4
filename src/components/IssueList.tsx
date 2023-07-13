@@ -54,10 +54,10 @@ const StyledIssueItem = styled.li`
   width: inherit;
   display: grid;
   grid-template-columns: 90% 10%;
-  border: 1px solid ${palette.grey100};
   border-radius: 5px;
   padding: 10px;
   cursor: pointer;
+  border: 1px solid ${palette.grey50};
 
   &:hover {
     background-color: ${palette.grey50};
