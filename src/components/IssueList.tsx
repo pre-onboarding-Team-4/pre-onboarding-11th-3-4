@@ -3,6 +3,7 @@ import { IssueListSchema } from '../types/issuesApi';
 import { palette } from '../palette';
 import { FaComment } from 'react-icons/fa';
 import { styled } from 'styled-components';
+import { getFormatPassedDate } from './util';
 
 interface IssueListProps {
   issueList: IssueListSchema;
@@ -11,10 +12,10 @@ interface IssueListProps {
 export default function IssueList({ issueList }: IssueListProps) {
   return (
     <StyledIssueList>
-      {issueList.map(({ id, title, number, createdAt, user, comments }) => (
+      {issueList.map(({ id, title, number, created_at, user, comments }) => (
         <StyledIssueItem key={id}>
           <div>
-            <h3>{title}</h3>#{number} opened {createdAt} by {user.login}
+            <h3>{title}</h3>#{number} opened {getFormatPassedDate(created_at)} by {user.login}
           </div>
           <div>
             <FaComment />

@@ -3,6 +3,7 @@ import { IssueSchema } from '../types/issuesApi';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 import { styled } from 'styled-components';
 import remarkGfm from 'remark-gfm';
+import { getFormatPassedDate } from './util';
 
 interface IssueDetailProps {
   issue: IssueSchema;
@@ -18,7 +19,7 @@ export default function IssueDetail({ issue }: IssueDetailProps) {
           </h2>
         </div>
         <div>
-          11minutes ago{issue.createdAt} ﹒ {issue.comments} comments
+          11minutes ago{getFormatPassedDate(issue.created_at)} ﹒ {issue.comments} comments
         </div>
       </StyledHeader>
 
