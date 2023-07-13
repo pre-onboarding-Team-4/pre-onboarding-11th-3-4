@@ -3,7 +3,11 @@ import { GetIssuePathParam, getIssue } from '../apis/issues';
 import { IssueContext } from '../contexts/IssueContextProvider';
 import { useIssues } from './useIssues';
 
-const pathParam: GetIssuePathParam = { repo: 'react', owner: 'facebook', issue_number: 0 };
+const pathParam: GetIssuePathParam = {
+  repo: process.env.REACT_APP_REPO || '',
+  owner: process.env.REACT_APP_OWNER || '',
+  issue_number: 0,
+};
 
 export function useIssue() {
   const context = useContext(IssueContext);

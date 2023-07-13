@@ -7,7 +7,10 @@ import { GetIssuesPathParam, GetIssuesQueryParam } from '../types/issuesApi';
 const PAGE = 1;
 const PER_PAGE = 10;
 
-const pathParam: GetIssuesPathParam = { repo: 'react', owner: 'facebook' };
+const pathParam: GetIssuesPathParam = {
+  repo: process.env.REACT_APP_REPO || '',
+  owner: process.env.REACT_APP_OWNER || '',
+};
 const queryParam: GetIssuesQueryParam = { sort: 'comments', page: PAGE, per_page: PER_PAGE };
 
 export function useIssues() {
