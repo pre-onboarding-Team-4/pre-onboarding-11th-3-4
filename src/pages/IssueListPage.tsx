@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useIssues } from '../hooks/useIssues';
-import Loading from '../components/Loading';
 import IssueList from '../components/IssueList';
 import useIntersectionObserver from '../hooks/useIntersectionObserver';
+import { styled } from 'styled-components';
+import Loading from '../components/Loading';
 
 export default function IssueListPage() {
   const owner = process.env.REACT_APP_OWNER;
@@ -37,10 +38,19 @@ export default function IssueListPage() {
   }, [page]);
 
   return (
-    <div>
+    <StyledIssueListPlage>
       <IssueList issueList={issueList} />
-      <div style={{ height: 50 }} ref={target} />
       {isLoading && <Loading />}
-    </div>
+      <div style={{ width: '100%', height: 50 }} ref={target} />
+    </StyledIssueListPlage>
   );
 }
+
+const StyledIssueListPlage = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+`;

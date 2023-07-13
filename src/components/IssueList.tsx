@@ -27,12 +27,14 @@ export default function IssueList({ issueList }: IssueListProps) {
 }
 
 const StyledIssueList = styled.ul`
+  width: inherit;
   display: flex;
   flex-direction: column;
   gap: 10px;
 `;
 
 const StyledIssueItem = styled.li`
+  width: inherit;
   display: grid;
   grid-template-columns: 90% 10%;
   border: 1px solid ${palette.grey100};
