@@ -8,20 +8,28 @@ import { getFormatPassedDate } from './util';
 interface IssueListProps {
   issueList: IssueListSchema;
 }
-
 export default function IssueList({ issueList }: IssueListProps) {
   return (
     <StyledIssueList>
-      {issueList.map(({ id, title, number, created_at, user, comments }) => (
-        <StyledIssueItem key={id}>
-          <div>
-            <h3>{title}</h3>#{number} opened {getFormatPassedDate(created_at)} by {user.login}
-          </div>
-          <div>
-            <FaComment />
-            {comments}
-          </div>
-        </StyledIssueItem>
+      {issueList.map(({ id, title, number, created_at, user, comments }, index) => (
+        <>
+          <StyledIssueItem key={id}>
+            <div>
+              <h3>{title}</h3>#{number} opened {getFormatPassedDate(created_at)} by {user.login}
+            </div>
+            <div>
+              <FaComment />
+              {comments}
+            </div>
+          </StyledIssueItem>
+          {!((index + 1) % 4) && (
+            <StyledAdItem>
+              <a href="https://www.wanted.co.kr/ " target="_blank">
+                <img src="https://image.wanted.co.kr/optimize?src=https%3A%2F%2Fstatic.wanted.co.kr%2Fimages%2Fuserweb%2Flogo_wanted_black.png&w=110&q=100" />
+              </a>
+            </StyledAdItem>
+          )}
+        </>
       ))}
     </StyledIssueList>
   );
@@ -52,4 +60,9 @@ const StyledIssueItem = styled.li`
     gap: 3px;
     justify-content: flex-end;
   }
+`;
+
+const StyledAdItem = styled.li`
+  width: inherit;
+  text-align: center;
 `;
