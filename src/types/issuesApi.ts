@@ -15,7 +15,7 @@ export type IssueSchema = {
   user: {
     avatar_url: string;
     login: string;
-  }
+  };
 };
 
 export type IssueListSchema = IssueSchema[];
