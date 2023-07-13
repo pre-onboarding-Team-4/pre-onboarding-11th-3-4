@@ -3,8 +3,6 @@ const getFormatPassedDate = (date: string) => {
   const currentDate = new Date();
   const elapsedMilliseconds = currentDate.getTime() - startDate.getTime();
 
-  console.log(date, startDate);
-
   // 분 단위 계산
   const minutes = Math.floor(elapsedMilliseconds / (1000 * 60));
   if (minutes < 60) {
