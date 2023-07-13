@@ -4,16 +4,24 @@ import { palette } from '../palette';
 import { FaComment } from 'react-icons/fa';
 import { styled } from 'styled-components';
 import { getFormatPassedDate } from './util';
+import { useNavigate } from 'react-router-dom';
 
 interface IssueListProps {
   issueList: IssueListSchema;
 }
 export default function IssueList({ issueList }: IssueListProps) {
+  const navigate = useNavigate();
+
   return (
     <StyledIssueList>
       {issueList.map(({ id, title, number, created_at, user, comments }, index) => (
         <>
-          <StyledIssueItem key={id}>
+          <StyledIssueItem
+            key={id}
+            onClick={() => {
+              navigate(`issues/${number}`);
+            }}
+          >
             <div>
               <h3>{title}</h3>#{number} opened {getFormatPassedDate(created_at)} by {user.login}
             </div>
