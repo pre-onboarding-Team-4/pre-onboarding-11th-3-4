@@ -34,6 +34,7 @@ export default function IssueDetail({ issue }: IssueDetailProps) {
 }
 
 const StyledIssueDetail = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 10px;
