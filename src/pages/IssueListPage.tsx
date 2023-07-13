@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useIssues } from '../hooks/useIssues';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../components/Loading';
 
 function IssueListPage() {
   const navigate = useNavigate();
@@ -46,7 +47,7 @@ function IssueListPage() {
           </>
         );
       })}
-      {isLoading && <div>loading...</div>}
+      {isLoading && <Loading />}
     </div>
   );
 }

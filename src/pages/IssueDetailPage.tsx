@@ -3,6 +3,7 @@ import { useIssue } from '../hooks/useIssue';
 import { useParams } from 'react-router-dom';
 import { ReactMarkdown } from 'react-markdown/lib/react-markdown';
 import remarkMath from 'remark-math';
+import Loading from '../components/Loading';
 
 function IssueDetailPage() {
   const { issue, fetchIssue, isLoading } = useIssue();
@@ -42,7 +43,7 @@ function IssueDetailPage() {
           <ReactMarkdown remarkPlugins={[remarkMath]}>{issue.body}</ReactMarkdown> 
         </div>
       ) : (
-        <div>loading...</div>
+        <Loading />
       )}
     </div>
   );
