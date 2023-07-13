@@ -19,7 +19,7 @@ export default function IssueDetail({ issue }: IssueDetailProps) {
           </h2>
         </div>
         <div>
-          11minutes ago{getFormatPassedDate(issue.created_at)} ﹒ {issue.comments} comments
+          {getFormatPassedDate(issue.created_at)} ﹒ {issue.comments} comments
         </div>
       </StyledHeader>
 
