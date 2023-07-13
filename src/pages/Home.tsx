@@ -4,6 +4,7 @@ import { useIssues } from '../hooks/useIssues';
 import { palette } from '../palette';
 import { BiMessage } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
+import Header from '../components/Header';
 
 export default function Home() {
   const { issueList, fetchIssues, fetchMoreIssues, isLoading } = useIssues();
@@ -46,6 +47,7 @@ export default function Home() {
     <>
       {isLoading && issueList.length <= 0 && <p>Loading</p>}
       <section>
+        {issueList.length > 0 && <Header url={issueList[0].url} />}
         <ol>
           {issueList.length > 0 &&
             issueList.map((issue, index) => (
