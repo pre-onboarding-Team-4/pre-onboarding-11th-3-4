@@ -5,7 +5,6 @@ import { createGlobalStyle } from 'styled-components';
 export const GlobalStyle = createGlobalStyle`
 
 #root {
-  background-color: red;
   width: 100%;
   max-width: 1024px;
   padding: 0 16px;
@@ -34,6 +33,8 @@ export const GlobalStyle = createGlobalStyle`
 
   body {
     margin: 0;
+    font-family: -apple-system, "system-ui", "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"
+
   }
 
   main {
@@ -228,7 +229,6 @@ export const GlobalStyle = createGlobalStyle`
  // reset
  * {
   box-sizing: border-box;
-  margin: 0;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
 }
@@ -267,10 +267,13 @@ button {
   padding: 0;
 }
 
+h2 {
+  margin: 0;
+}
+
 ul,
 ol {
   padding-left: 0;
-  list-style: none;
 }
 
 address {
