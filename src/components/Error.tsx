@@ -1,5 +1,6 @@
 import React from 'react';
 import { styled } from 'styled-components';
+import { AiFillGithub } from 'react-icons/ai';
 
 interface ErrorProps {
   message: string;
@@ -8,15 +9,22 @@ interface ErrorProps {
 export default function Error({ message }: ErrorProps) {
   return (
     <StyledError>
-      <h2>{message}</h2>
+      <h2>
+        <AiFillGithub />
+        {message}
+      </h2>
     </StyledError>
   );
 }
 
 const StyledError = styled.div`
-  width: inherit;
-  height: 100%;
+  top: 100px;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 `;
