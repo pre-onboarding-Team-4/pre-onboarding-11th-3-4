@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useIssue } from '../hooks/useIssue';
 import IssueDetail from '../components/IssueDetail';
+import Loading from '../components/Loading';
+import { styled } from 'styled-components';
 
 export default function IssueDetailPage() {
   const owner = process.env.REACT_APP_OWNER;
@@ -16,5 +18,16 @@ export default function IssueDetailPage() {
     fetchIssue(Number(id));
   }, []);
 
-  return <div>{!!issue && !isLoading ? <IssueDetail issue={issue} /> : <div>로딩중</div>}</div>;
+  return (
+    <StyledIssueDetailPage>
+      {!!issue && !isLoading ? <IssueDetail issue={issue} /> : <Loading />}
+    </StyledIssueDetailPage>
+  );
 }
+
+const StyledIssueDetailPage = styled.div`
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
