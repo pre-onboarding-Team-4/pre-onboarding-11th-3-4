@@ -1,12 +1,13 @@
 import { useContext, useState } from 'react';
 import { IssuesContext } from '../contexts/IssuesContextProvider';
-import { GetIssuesPathParam, GetIssuesQueryParam, getIssueList } from '../apis/issues';
+import { getIssueList } from '../apis/issues';
+import { GetIssuesQueryParam } from '../types/issuesApi';
+import pathParam from '../constant/pathParam';
 
 /* Initial data for api call */
 const PAGE = 1;
 const PER_PAGE = 10;
 
-const pathParam: GetIssuesPathParam = { repo: 'react', owner: 'facebook' };
 const queryParam: GetIssuesQueryParam = { sort: 'comments', page: PAGE, per_page: PER_PAGE };
 
 export function useIssues() {
@@ -26,9 +27,11 @@ export function useIssues() {
 
   const fetchMoreIssues = async () => {
     const NEXT_PAGE = Math.floor(issueList.length / PER_PAGE) + 1;
+
     setIsLoading(true);
     const res = await getIssueList(pathParam, { ...queryParam, page: NEXT_PAGE });
     setIssueList([...issueList, ...res]);
+
     setIsLoading(false);
   };
 

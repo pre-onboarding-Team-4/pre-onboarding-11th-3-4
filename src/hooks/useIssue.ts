@@ -2,8 +2,9 @@ import { useContext, useState } from 'react';
 import { GetIssuePathParam, getIssue } from '../apis/issues';
 import { IssueContext } from '../contexts/IssueContextProvider';
 import { useIssues } from './useIssues';
+import pathParam from '../constant/pathParam';
 
-const pathParam: GetIssuePathParam = { repo: 'react', owner: 'facebook', issue_number: 0 };
+const pathParams: GetIssuePathParam = { ...pathParam, issue_number: 0 };
 
 export function useIssue() {
   const context = useContext(IssueContext);
@@ -27,7 +28,7 @@ export function useIssue() {
     }
 
     setIsLoading(true);
-    const res = await getIssue({ ...pathParam, issue_number: issueNumber });
+    const res = await getIssue({ ...pathParams, issue_number: issueNumber });
     setIssue(res);
     setIsLoading(false);
   };
