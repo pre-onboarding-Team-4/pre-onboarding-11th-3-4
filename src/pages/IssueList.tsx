@@ -33,7 +33,7 @@ function IssueList() {
       {isLoading && data.length === 0 && (
         <CenterLoadContainer>{isLoading && <LoadSpinner />}</CenterLoadContainer>
       )}
-      {data.map((issue, index) => {
+      {data?.map((issue, index) => {
         if ((index + 1) % 4 !== 0) return <IssueBlock key={issue.id} issue={issue} />;
         else
           return (
