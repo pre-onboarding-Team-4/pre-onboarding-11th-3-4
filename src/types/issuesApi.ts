@@ -8,11 +8,13 @@ export type IssueSchema = {
   id: number;
   number: number;
   title: string;
-  userId: string;
-  createdAt: string;
+  created_at: string;
   comments: number;
-  avatar_url: string;
   body: string;
+  user: {
+    avatar_url: string;
+    login: string;
+  };
 };
 
 export type IssueListSchema = IssueSchema[];
