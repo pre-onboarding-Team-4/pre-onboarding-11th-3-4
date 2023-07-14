@@ -36,6 +36,7 @@ npm install
 3. '.env' 파일에 다음 변수와 해당하는 값을 입력하세요.
 
 REACT_APP_API_END_POINT=https://api.github.com
+REACT_APP_ACCESS_TOKEN="본인의 토큰"
 ```
 
 5. 설치가 완료되었고, .env 설정이 완료 되었다면 다음 명령어로 프로젝트를 실행할 수 있습니다.
