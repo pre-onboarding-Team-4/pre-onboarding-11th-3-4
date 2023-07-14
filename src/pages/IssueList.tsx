@@ -9,7 +9,15 @@ import ErrorComp from '../components/Error';
 import { AxiosError } from 'axios';
 
 function IssueList() {
-  const { issueList: data, fetchIssues, fetchMoreIssues, isLoading } = useIssues();
+  const {
+    issueList: data,
+    isEnd,
+    countLoading,
+    fetchIssues,
+    fetchMoreIssues,
+    fetchIssueCount,
+    isLoading,
+  } = useIssues();
   const target = useRef(null);
   const [page, setPage] = useState(1);
 
@@ -30,13 +38,16 @@ function IssueList() {
   };
 
   useEffect(() => {
+    tryToFetchData(fetchIssueCount);
     tryToFetchData(fetchIssues);
     setPage(page + 1);
     observe(target.current);
   }, []);
 
   useEffect(() => {
-    tryToFetchData(fetchMoreIssues);
+    if (!countLoading && !isLoading && !isEnd) {
+      tryToFetchData(fetchMoreIssues);
+    }
   }, [page]);
 
   const [error, setError] = useState('');
