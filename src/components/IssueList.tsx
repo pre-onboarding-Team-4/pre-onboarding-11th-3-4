@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { IssueListSchema } from '../types/issuesApi';
 import { palette } from '../palette';
 import { FaComment } from 'react-icons/fa';
@@ -15,7 +15,7 @@ export default function IssueList({ issueList }: IssueListProps) {
   return (
     <StyledIssueList>
       {issueList.map(({ id, title, number, created_at, user, comments }, index) => (
-        <>
+        <Fragment key={id}>
           <StyledIssueItem
             key={id}
             onClick={() => {
@@ -37,7 +37,7 @@ export default function IssueList({ issueList }: IssueListProps) {
               </a>
             </StyledAdItem>
           )}
-        </>
+        </Fragment>
       ))}
     </StyledIssueList>
   );
