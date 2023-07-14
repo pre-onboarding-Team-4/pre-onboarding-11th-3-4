@@ -1,12 +1,12 @@
-import React, { useEffect, useRef, useState } from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { useIssues } from '../hooks/useIssues';
 import IssueBlock from '../components/IssueBlock';
 import AdBlock from '../components/AdBlock';
 import useIntersectionObserver from '../hooks/useIntersectionObserver';
 import LoadSpinner from '../components/LoadSpinner';
 import styled from 'styled-components';
+import ErrorComp from '../components/Error';
+import { AxiosError } from 'axios';
 
 function IssueList() {
   const { issueList: data, fetchIssues, fetchMoreIssues, isLoading } = useIssues();
@@ -17,19 +17,40 @@ function IssueList() {
     setPage((page) => page + 1);
   });
 
+  const tryToFetchData = async (func: () => void) => {
+    try {
+      await func();
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setError(error.response?.data.message ?? 'Sorry, Unknown Error');
+      } else {
+        setError('Sorry, Unknown error');
+      }
+    }
+  };
+
   useEffect(() => {
-    fetchIssues();
+    tryToFetchData(fetchIssues);
     setPage(page + 1);
     observe(target.current);
   }, []);
 
   useEffect(() => {
-    if (!isLoading) fetchMoreIssues();
+    tryToFetchData(fetchMoreIssues);
   }, [page]);
+
+  const [error, setError] = useState('');
+
+  if (error) {
+    return (
+      <>
+        <ErrorComp message={error} />
+      </>
+    );
+  }
 
   return (
     <>
-      <Header />
       {isLoading && data.length === 0 && (
         <CenterLoadContainer>{isLoading && <LoadSpinner />}</CenterLoadContainer>
       )}
@@ -37,14 +58,15 @@ function IssueList() {
         if ((index + 1) % 4 !== 0) return <IssueBlock key={issue.id} issue={issue} />;
         else
           return (
-            <>
-              <IssueBlock key={issue.id} issue={issue} />
+            <Fragment key={issue.id}>
+              <IssueBlock issue={issue} />
               <AdBlock />
-            </>
+            </Fragment>
           );
       })}
-      <FooterLoadContainer>{isLoading && data.length !== 0 && <LoadSpinner />}</FooterLoadContainer>
-      <Footer ref={target} />
+      <FooterLoadContainer ref={target}>
+        {isLoading && data.length !== 0 && <LoadSpinner />}
+      </FooterLoadContainer>
     </>
   );
 }
