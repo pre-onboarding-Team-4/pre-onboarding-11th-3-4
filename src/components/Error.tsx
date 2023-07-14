@@ -25,6 +25,7 @@ const ErrorContainer = styled.div`
   p {
     margin-top: 30px;
   }
+  font-size: 30px;
 `;
 
 export default Error;
