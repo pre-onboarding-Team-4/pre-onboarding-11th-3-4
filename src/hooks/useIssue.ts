@@ -1,7 +1,7 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { GetIssuePathParam, getIssue } from '../apis/issues';
-import { IssueContext } from '../contexts/IssueContextProvider';
 import { useIssues } from './useIssues';
+import { IssueSchema } from '../types/issuesApi';
 
 const pathParam: GetIssuePathParam = {
   repo: process.env.REACT_APP_REPO || '',
@@ -10,11 +10,7 @@ const pathParam: GetIssuePathParam = {
 };
 
 export function useIssue() {
-  const context = useContext(IssueContext);
-
-  if (!context) throw new Error('IssueContextProvider를 찾을 수 없습니다!');
-
-  const { issue, setIssue } = context;
+  const [issue, setIssue] = useState<IssueSchema | null>(null);
   const { issueList } = useIssues();
   const [isLoading, setIsLoading] = useState(false);
 
