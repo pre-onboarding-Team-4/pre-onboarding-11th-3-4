@@ -19,7 +19,7 @@ git clone https://github.com/pre-onboarding-Team-4/pre-onboarding-11th-3-4.git
 2. 가져온 복사본으로 이동합니다.
 
 ```
-cd pre-onboarding-11th-1-4
+cd pre-onboarding-11th-3-4
 ```
 
 3. 가져온 프로젝트의 종속성을 설치하세요.
@@ -148,10 +148,10 @@ npm start
         </tr>
         <tr></tr>
         <tr>
-            <td><img src=""
+            <td><img src="https://github.com/hsejsx/wanted-internship/assets/108166730/1d23b97d-46ab-4cea-b16e-b34a96d5c611"
                     alt=""></td>
             <td>에러 화면<ul>
-                    <li>에러</li>
+                    <li>잘못된 경로, 없는 이슈 요청 시 에러 페이지를 표시합니다</li>
                 </ul>
             </td>
         </tr>
@@ -166,26 +166,25 @@ npm start
 
 #### 📌 Context API를 활용한 API 연동 Best Practice 선정
 
-**context와 custom Hook를 활용한 issues, issue 전역상태로 관리**
+❓선정이유
 
-❓선정 이유?
-
-- 목록 이슈 데이터와 상세 이슈 데이터를 IssuesContext, IssueContext로 각각 관리하도록 하였으며, 컴포넌트 단에서 쉽게 사용하도록 custom Hook을 활용하여 useIssues(), useIssue() 상태관리 로직들을 추상화하였습니다. 이를 통해 상태와 기능을 캡슐화하고 재사용 가능한 로직을 구축했습니다.
+- Issue, Issues state를 context와 custom hook `useIssue`, `useIssues`를 이용하여 전역적으로 상태를 관리했습니다.
+- 이를 통해 상태와 기능을 캡슐화하고 재사용 가능한 로직을 구축했습니다.
 - 빠른 렌더링을 위해, 데이터 통신 비용이 드는 것보다 캐싱된 데이터를 우선 확인하는 것이 성능적으로 더 좋다고 생각하여 이슈 요청 시 캐싱된 데이터가 있으면 캐싱된 데이터를, 없을 시 요청하여 처리했습니다.
 
 ```ts
 // useIssue.ts
 // import 생략
 const pathParam: GetIssuePathParam = {
-  repo: 'react',
-  owner: 'facebook',
+  repo: "react",
+  owner: "facebook",
   issue_number: 0,
 };
 
 export function useIssue() {
   const context = useContext(IssueContext);
 
-  if (!context) throw new Error('IssueContextProvider를 찾을 수 없습니다!');
+  if (!context) throw new Error("IssueContextProvider를 찾을 수 없습니다!");
 
   const { issue, setIssue } = context;
   const { issueList } = useIssues();
@@ -208,16 +207,10 @@ export function useIssue() {
     setIssue(res);
     setIsLoading(false);
   };
+
+  return { issue, fetchIssue, isLoading };
+}
 ```
-
-
-**API 요청**
-
-❓선정이유? 
-
-- 페이지 렌더링 시 빠른 렌더링을 위해, 데이터 통신 비용이 드는 것보다 캐싱된 데이터를 우선 확인하는 것이 성능적으로 더 좋다고 생각하여 이슈 요청 시 캐싱된 데이터가 있으면 캐싱된 데이터를, 없을 시 요청하여 처리했습니다.
-- query Param을 이용해 지정된 조건(open 상태, 코멘트 많은 순)에 맞게 데이터 요청하였습니다.
-- makeQueryString은 객체로 전달해서 일괄적으로 특수문자를 넣어주는게 손수 작성하는 것보다 실수할 가능성이 적어 queryString이 길어질때 등 쓰면 좋을 것 같아 구현하였습니다.
 
 ---
 
@@ -232,29 +225,29 @@ export function useIssue() {
 
 ```ts
 // pathParam.ts
-import { GetIssuesPathParam } from '../types/issuesApi';
+import { GetIssuesPathParam } from "../types/issuesApi";
 
-const pathParam: GetIssuesPathParam = { repo: 'react', owner: 'facebook' };
+const pathParam: GetIssuesPathParam = { repo: "react", owner: "facebook" };
 
 export default Object.freeze(pathParam);
 ```
 
 ```ts
 // useIntersectionObserver.ts
-import { useRef } from 'react';
+import { useRef } from "react";
 
 export default function useIntersectionObserver(callback: () => void) {
   const observer = useRef(
     new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
+      (entries) => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
             callback();
           }
         });
       },
-      { threshold: 1 },
-    ),
+      { threshold: 1 }
+    )
   );
 
   const observe = (element: HTMLElement | null) => {
@@ -275,7 +268,51 @@ export default function useIntersectionObserver(callback: () => void) {
 
 ❓선정이유
 
-- 작성하기
+- Client side에서 404(NotFoundPage) 에러가 발생했을 때 뿐만 아니라, api 요청 중 발생할 수 있는 에러들에 대해 핸들링함으로서, 에러 발생에 방어적으로 대응하는 코드가 작성된 것을 선정했습니다.
+
+  현재 아래의 에러들에 대해 핸들링 돼있습니다.
+
+  - Client Side의 404: ex. `/hello`
+  - 해당 이슈번호가 없을 때 (404): 존재하지 않은 이슈 번호를 요청 ex. `issues/99999`
+  - 해당 이슈번호가 삭제됐을 때 (410): 삭제된 이슈 번호를 요청
+  - 권한 없는 API 요청 (401): 요청 시 access_token이 유효하지않은 않은 값
+
+- 에러를 전역적으로 관리할 것인지, 지역적으로 관리할 것인지에 대한 의견이 나뉘었습니다. 첫 번째 방식은 반복된 상태와 컴포넌트를 선언하지않아 코드 품질을 향상합니다. 두 번째 방식은 사용자 경험을 고려해 깨진 UI 일부분만을 보여준다는 장점이 있었습니다. 각 방식은 서로의 장단점을 갖고있습니다.
+
+  따라서 저희의 상황을 고려해서, 지역적으로 관리하기로 결정했습니다. 그 이유는 UX 개선을 위해 앱 전체에 대한 에러 화면, 앱 일부에 대한 에러 화면을 구분해서 렌더링하는게 필요했기 때문입니다. 또 코드 품질 저하로 인한 단점이 크지 않았기 때문에 이 방식을 선택했습니다.
+
+```typescript
+function IssueList() {
+  // ...
+  const [error, setError] = useState('');
+
+  const tryToFetchData = async (func: () => void) => {
+    try {
+      await func();
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setError(error.response?.data.message ?? 'Sorry, Unknown Error');
+      } else {
+        setError('Sorry, Unknown error');
+      }
+    }
+  };
+
+  useEffect(() => {
+    tryToFetchData(fetchIssueCount);
+    tryToFetchData(fetchIssues);
+  }, []);
+
+  if (error) {
+    return (
+      <>
+        <ErrorComp message={error} />
+      </>
+    );
+  }
+  // ...
+}
+```
 
 ### 3. 트러블 슈팅
 
@@ -366,3 +403,4 @@ if (res.length === 0) {
 
 - isEnd 라는 상태값을 추가해 isEnd값이 true일경우에는 스크롤시 핸들링함수를 실행하지않게 적용했습니다
 - 이렇게 적용한결과 마지막페이지 도달시 로딩후 더이상 페이지가없어 게속해서 api를 요청하지않고 처음 한번만 요청하게되었습니다
+
