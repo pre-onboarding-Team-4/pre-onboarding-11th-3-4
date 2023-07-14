@@ -1,13 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useIssues } from '../hooks/useIssues';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../components/Loading';
 
 function IssueListPage() {
   const navigate = useNavigate();
-  const bottomRef = useRef<HTMLDivElement>(null);
+  //const bottomRef = useRef<HTMLDivElement>(null);
 
-  const { issueList, fetchIssues, fetchMoreIssues, isLoading } = useIssues();
+  const { issueList, fetchIssues, isLoading } = useIssues();
 
   useEffect(() => {
     fetchIssues();
