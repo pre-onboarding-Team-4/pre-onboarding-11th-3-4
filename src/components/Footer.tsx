@@ -1,14 +1,10 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { palette } from '../palette';
 
-type FooterProps = {
-  ref: React.RefObject<HTMLSelectElement>;
-};
-
-const Footer = forwardRef<HTMLDivElement, FooterProps>((props, ref) => {
+function Footer() {
   return (
-    <StyledFooter ref={ref}>
+    <StyledFooter>
       <svg
         aria-hidden="true"
         height="16"
@@ -25,7 +21,7 @@ const Footer = forwardRef<HTMLDivElement, FooterProps>((props, ref) => {
       <span>linked:pr.</span>
     </StyledFooter>
   );
-});
+}
 
 const StyledFooter = styled.footer`
   display: flex;

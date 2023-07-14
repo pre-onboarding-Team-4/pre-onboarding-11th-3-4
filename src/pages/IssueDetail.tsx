@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { palette } from '../palette';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 import { useParams } from 'react-router-dom';
 import { useIssue } from '../hooks/useIssue';
 import { formatTime } from '../utils/formatTime';
@@ -11,6 +9,8 @@ import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { oneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 import LoadSpinner from '../components/LoadSpinner';
+import { AxiosError } from 'axios';
+import ErrorComp from '../components/Error';
 
 function IssueDetail() {
   const params = useParams();
@@ -18,14 +18,31 @@ function IssueDetail() {
   const { issue: data, fetchIssue, isLoading } = useIssue();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-    fetchIssue(Number(params?.id));
+    (async () => {
+      try {
+        window.scrollTo(0, 0);
+        await fetchIssue(Number(params?.id));
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          setError(error.response?.data.message ?? 'Sorry, Unknown Error');
+        } else {
+          setError('Sorry, Unknown error');
+        }
+      }
+    })();
   }, []);
+
+  const [error, setError] = useState('');
+
+  if (error) {
+    return <ErrorComp message={error} />;
+  }
+
+  if (data?.number !== Number(params.id))
+    return <CenterLoadContainer>{isLoading && <LoadSpinner />}</CenterLoadContainer>;
 
   return (
     <>
-      <Header />
-      {isLoading && <CenterLoadContainer>{isLoading && <LoadSpinner />}</CenterLoadContainer>}
       <DetailTopContainer>
         <div>
           <IssueTitle>{data?.title}</IssueTitle>
@@ -66,8 +83,6 @@ function IssueDetail() {
           {String(data?.body.replace(/\n\s\n\s/gi, '\n\n&nbsp;\n\n'))}
         </ReactMarkdown>
       </MarkdownContainer>
-
-      <Footer />
     </>
   );
 }
