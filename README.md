@@ -138,7 +138,7 @@ npm start
         </tr>
         <tr></tr>
         <tr>
-            <td><img src="https://github.com/hsejsx/wanted-internship/assets/108166730/9f14acb8-174f-4fa9-ad62-678cc81b5dea"
+            <td><img src="https://github.com/pre-onboarding-Team-4/pre-onboarding-11th-3-4/assets/108166730/9cb33f00-7f38-4387-821c-98f40f592aee"
                     alt="" /></td>
             <td>이슈 상세<ul>
                     <li>마크다운을 표시합니다</li>
@@ -148,7 +148,7 @@ npm start
         </tr>
         <tr></tr>
         <tr>
-            <td><img src="https://github.com/hsejsx/wanted-internship/assets/108166730/1d23b97d-46ab-4cea-b16e-b34a96d5c611"
+            <td><img src="https://github.com/pre-onboarding-Team-4/pre-onboarding-11th-3-4/assets/108166730/25b3cd8d-3238-4097-918f-8676dbb720fc"
                     alt="" /></td>
             <td>에러 화면<ul>
                     <li>잘못된 경로, 없는 이슈 요청 시 에러 페이지를 표시합니다</li>
