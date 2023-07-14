@@ -166,25 +166,26 @@ npm start
 
 #### 📌 Context API를 활용한 API 연동 Best Practice 선정
 
-❓선정이유
+**context와 custom Hook를 활용한 issues, issue 전역상태로 관리**
 
-- Issue, Issues state를 context와 custom hook `useIssue`, `useIssues`를 이용하여 전역적으로 상태를 관리했습니다.
-- 이를 통해 상태와 기능을 캡슐화하고 재사용 가능한 로직을 구축했습니다.
+❓선정 이유?
+
+- 목록 이슈 데이터와 상세 이슈 데이터를 IssuesContext, IssueContext로 각각 관리하도록 하였으며, 컴포넌트 단에서 쉽게 사용하도록 custom Hook을 활용하여 useIssues(), useIssue() 상태관리 로직들을 추상화하였습니다. 이를 통해 상태와 기능을 캡슐화하고 재사용 가능한 로직을 구축했습니다.
 - 빠른 렌더링을 위해, 데이터 통신 비용이 드는 것보다 캐싱된 데이터를 우선 확인하는 것이 성능적으로 더 좋다고 생각하여 이슈 요청 시 캐싱된 데이터가 있으면 캐싱된 데이터를, 없을 시 요청하여 처리했습니다.
 
 ```ts
 // useIssue.ts
 // import 생략
 const pathParam: GetIssuePathParam = {
-  repo: "react",
-  owner: "facebook",
+  repo: 'react',
+  owner: 'facebook',
   issue_number: 0,
 };
 
 export function useIssue() {
   const context = useContext(IssueContext);
 
-  if (!context) throw new Error("IssueContextProvider를 찾을 수 없습니다!");
+  if (!context) throw new Error('IssueContextProvider를 찾을 수 없습니다!');
 
   const { issue, setIssue } = context;
   const { issueList } = useIssues();
@@ -207,11 +208,32 @@ export function useIssue() {
     setIssue(res);
     setIsLoading(false);
   };
-
-  return { issue, fetchIssue, isLoading };
-}
 ```
 
+
+**API 요청**
+
+❓선정이유? 
+
+- 페이지 렌더링 시 빠른 렌더링을 위해, 데이터 통신 비용이 드는 것보다 캐싱된 데이터를 우선 확인하는 것이 성능적으로 더 좋다고 생각하여 이슈 요청 시 캐싱된 데이터가 있으면 캐싱된 데이터를, 없을 시 요청하여 처리했습니다.
+- query Param을 이용해 지정된 조건(open 상태, 코멘트 많은 순)에 맞게 데이터 요청하였습니다.
+- makeQueryString은 객체로 전달해서 일괄적으로 특수문자를 넣어주는게 손수 작성하는 것보다 실수할 가능성이 적어 queryString이 길어질때 등 쓰면 좋을 것 같아 구현하였습니다.
+
+```ts
+type QueryParam = {
+  [key: string]: string | number; // primitive type
+};
+
+const makeQueryString = (object: QueryParam) => {
+  const querystring = [];
+  for (const key in object) {
+    querystring.push(`${key}=${object[key]}`);
+  }
+  return querystring.join('&');
+};
+
+export { makeQueryString };
+```
 ---
 
 #### 📌 이슈 목록 및 상세 화면 기능 구현 Best Practice 선정
