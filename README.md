@@ -62,15 +62,15 @@
 // useIssue.ts
 // import 생략
 const pathParam: GetIssuePathParam = {
-  repo: "react",
-  owner: "facebook",
+  repo: 'react',
+  owner: 'facebook',
   issue_number: 0,
 };
 
 export function useIssue() {
   const context = useContext(IssueContext);
 
-  if (!context) throw new Error("IssueContextProvider를 찾을 수 없습니다!");
+  if (!context) throw new Error('IssueContextProvider를 찾을 수 없습니다!');
 
   const { issue, setIssue } = context;
   const { issueList } = useIssues();
@@ -111,29 +111,29 @@ export function useIssue() {
 
 ```ts
 // pathParam.ts
-import { GetIssuesPathParam } from "../types/issuesApi";
+import { GetIssuesPathParam } from '../types/issuesApi';
 
-const pathParam: GetIssuesPathParam = { repo: "react", owner: "facebook" };
+const pathParam: GetIssuesPathParam = { repo: 'react', owner: 'facebook' };
 
 export default Object.freeze(pathParam);
 ```
 
 ```ts
 // useIntersectionObserver.ts
-import { useRef } from "react";
+import { useRef } from 'react';
 
 export default function useIntersectionObserver(callback: () => void) {
   const observer = useRef(
     new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
+      entries => {
+        entries.forEach(entry => {
           if (entry.isIntersecting) {
             callback();
           }
         });
       },
-      { threshold: 1 }
-    )
+      { threshold: 1 },
+    ),
   );
 
   const observe = (element: HTMLElement | null) => {
@@ -174,15 +174,15 @@ useEffect(() => {
       await fetchIssue(Number(params?.id));
     } catch (error) {
       if (error instanceof AxiosError) {
-        setError(error.response?.data.message ?? "Sorry, Unknown Error");
+        setError(error.response?.data.message ?? 'Sorry, Unknown Error');
       } else {
-        setError("Sorry, Unknown error");
+        setError('Sorry, Unknown error');
       }
     }
   })();
 }, []);
 
-const [error, setError] = useState("");
+const [error, setError] = useState('');
 
 if (error) {
   return <ErrorComp message={error} />;
@@ -196,3 +196,48 @@ if (data?.number !== Number(params.id))
 
 - 이러한 깜빡임으로 인한 UX의 저하를 막기 위해, 이전의 데이터의 렌더를 막아야 했습니다
 - 따라서, 이전의 데이터와 현재 방문한 페이지의 데이터가 다를때(id를 활용한 비교) 로딩을 렌더하여 early return해주는 코드를 작성하였습니다.
+
+#### 📌 무한스크롤시 총 페이지당 아이템의개수가 10개미만일때 중복 데이터 요청 발생
+
+- 저희는 페이지당 아이템개수를 10개 가져오기로 결정해서 처음 페이지에서 렌더링후 바로 스크롤데이터를 요청하게되는 로직이 적용되어있었습니다
+- 그러나 facebook/react 이슈처럼 10개이상일경우 는 상관없지만 임시로 10개미만의 이슈 레포로 테스트를 해본결과 중복된 페이지에대해 요청하는 문제가 발생했습니다
+
+```typescript
+const PER_PAGE = 10;
+
+const NEXT_PAGE = Math.floor(issueList.length / PER_PAGE) + 1;
+```
+
+- 이슈리스트가 10개 미만일경우 같은 페이지의 이슈 데이터를 가져오는 문제가 발생하게됩니다 그래서 아래와 같이 수정했습니다
+
+```typescript
+if (count < 10) {
+  setIsEnd(true);
+  setIsLoading(false);
+  return;
+}
+
+const NEXT_PAGE = Math.floor(issueList.length / PER_PAGE) + 1;
+```
+
+- `repo/facebook/react` api에서 총이슈 개수를 가지고와서 총개수가 10개미만일경우 실행하지않게 변경했습니다
+
+#### 📌 무한스크롤시 마지막 페이지 도달시 예외처리 적용
+
+- 일반적으로 무한스크롤 사이트의 경우 콘텐츠가 끊임없이 제공되어야하며 맨하단에 도달할경우가 거의없지만 저희가개발하는 github이슈의 양이라면 도달할 경우도있을 것 같아 예외사항을 고려해 개발하였습니다
+- github issue ap 에서는 데이터가 없는 페이지로 요청시 빈배열을 반환하게 적용되어있어 아래와같이 처리하였습니다
+
+```typescript
+const [isEnd, setIsEnd] = useState(false);
+
+const res = await getIssueList(pathParam, { ...queryParam, page: NEXT_PAGE });
+
+if (res.length === 0) {
+  setIsEnd(true);
+  setIsLoading(false);
+  return;
+}
+```
+
+- isEnd 라는 상태값을 추가해 isEnd값이 true일경우에는 스크롤시 핸들링함수를 실행하지않게 적용했습니다
+- 이렇게 적용한결과 마지막페이지 도달시 로딩후 더이상 페이지가없어 게속해서 api를 요청하지않고 처음 한번만 요청하게되었습니다
