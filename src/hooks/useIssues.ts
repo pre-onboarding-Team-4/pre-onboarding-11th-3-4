@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { IssuesContext } from '../contexts/IssuesContextProvider';
-import { getIssueList } from '../apis/issues';
+import { getIssueCount, getIssueList } from '../apis/issues';
 import { GetIssuesQueryParam } from '../types/issuesApi';
 import pathParam from '../constant/pathParam';
 
@@ -16,7 +16,17 @@ export function useIssues() {
   if (!context) throw new Error('IssuesContextProvider를 찾을 수 없습니다!');
 
   const { issueList, setIssueList } = context;
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
+  const [countLoading, setCountLoading] = useState(false);
+  const [count, setCount] = useState(0);
+
+  const fetchIssueCount = async () => {
+    setCountLoading(true);
+    const res = await getIssueCount(pathParam);
+    setCount(res);
+    setCountLoading(false);
+  };
 
   const fetchIssues = async () => {
     setIsLoading(true);
@@ -26,14 +36,37 @@ export function useIssues() {
   };
 
   const fetchMoreIssues = async () => {
+    setIsLoading(true);
+
+    if (count < 10) {
+      setIsEnd(true);
+      setIsLoading(false);
+      return;
+    }
+
     const NEXT_PAGE = Math.floor(issueList.length / PER_PAGE) + 1;
 
-    setIsLoading(true);
     const res = await getIssueList(pathParam, { ...queryParam, page: NEXT_PAGE });
+
+    if (res.length === 0) {
+      setIsEnd(true);
+      setIsLoading(false);
+      return;
+    }
+
     setIssueList([...issueList, ...res]);
 
     setIsLoading(false);
   };
 
-  return { issueList, fetchIssues, fetchMoreIssues, isLoading };
+  return {
+    issueList,
+    isEnd,
+    count,
+    countLoading,
+    fetchIssueCount,
+    fetchIssues,
+    fetchMoreIssues,
+    isLoading,
+  };
 }
