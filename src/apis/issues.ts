@@ -26,4 +26,11 @@ const getIssue: (pathParam: GetIssuePathParam) => Promise<IssueSchema> = async (
   return res.data as IssueSchema;
 };
 
-export { getIssueList, getIssue };
+const getIssueCount = async (pathParam: GetIssuesPathParam): Promise<number> => {
+  const { owner, repo } = pathParam;
+  const res = await instance.get(`/repos/${owner}/${repo}`);
+
+  return res.data.open_issues_count;
+};
+
+export { getIssueList, getIssue, getIssueCount };

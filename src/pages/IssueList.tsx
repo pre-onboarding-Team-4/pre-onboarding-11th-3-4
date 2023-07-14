@@ -9,7 +9,15 @@ import LoadSpinner from '../components/LoadSpinner';
 import styled from 'styled-components';
 
 function IssueList() {
-  const { issueList: data, fetchIssues, fetchMoreIssues, isLoading } = useIssues();
+  const {
+    issueList: data,
+    isEnd,
+    countLoading,
+    fetchIssues,
+    fetchMoreIssues,
+    fetchIssueCount,
+    isLoading,
+  } = useIssues();
   const target = useRef(null);
   const [page, setPage] = useState(1);
 
@@ -18,13 +26,16 @@ function IssueList() {
   });
 
   useEffect(() => {
+    fetchIssueCount();
     fetchIssues();
     setPage(page + 1);
     observe(target.current);
   }, []);
 
   useEffect(() => {
-    if (!isLoading) fetchMoreIssues();
+    if (!countLoading && !isLoading && !isEnd) {
+      fetchMoreIssues();
+    }
   }, [page]);
 
   return (
