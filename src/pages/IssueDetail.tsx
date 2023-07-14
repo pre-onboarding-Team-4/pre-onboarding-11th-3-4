@@ -38,9 +38,11 @@ function IssueDetail() {
     return <ErrorComp message={error} />;
   }
 
+  if (data?.number !== Number(params.id))
+    return <CenterLoadContainer>{isLoading && <LoadSpinner />}</CenterLoadContainer>;
+
   return (
     <>
-      {isLoading && <CenterLoadContainer>{isLoading && <LoadSpinner />}</CenterLoadContainer>}
       <DetailTopContainer>
         <div>
           <IssueTitle>{data?.title}</IssueTitle>
