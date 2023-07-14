@@ -48,6 +48,7 @@ export default function IssueDetailPage() {
 }
 
 const StyledIssueDetailPage = styled.div`
+  margin: 16px 0px;
   display: flex;
   justify-content: center;
 `;

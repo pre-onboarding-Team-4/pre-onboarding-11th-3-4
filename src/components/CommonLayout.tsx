@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, ScrollRestoration } from 'react-router-dom';
 import { palette } from '../palette';
 import { styled } from 'styled-components';
 
@@ -19,6 +19,7 @@ export default function CommonLayout() {
         </a>
       </StyledHeader>
       <Outlet />
+      <ScrollRestoration />
     </>
   );
 }
@@ -26,8 +27,5 @@ export default function CommonLayout() {
 const StyledHeader = styled.header`
   width: fit-content;
   padding: 10px;
-  margin: 10px 0px;
-  border-radius: 5px;
-  border: 1px solid ${palette.grey50};
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 75%, ${palette.blue} 15%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 80%, ${palette.blue} 15%);
 `;

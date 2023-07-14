@@ -61,13 +61,14 @@ export default function IssueListPage() {
     <StyledIssueListPlage>
       <IssueList issueList={issueList} />
       {isLoading && <Loading />}
-      <div style={{ width: '100%', height: 50 }} ref={target} />
+      <div style={{ width: '100%', height: 5 }} ref={target} />
     </StyledIssueListPlage>
   );
 }
 
 const StyledIssueListPlage = styled.div`
   width: 100%;
+  padding: 16px 0px;
   display: flex;
   flex-direction: column;
   justify-content: center;
