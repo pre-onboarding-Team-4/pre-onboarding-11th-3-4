@@ -1,15 +1,18 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
+import IssueList from './pages/IssueList';
+import IssueDetail from './pages/IssueDetail';
+import Error from './pages/Error';
 
 const route = [
   {
     path: '',
-    element: <div>issue list</div>,
-    errorElement: <div>error</div>,
+    element: <IssueList />,
+    errorElement: <Error />,
   },
   {
     path: 'issues/:id',
-    element: <div>issue</div>,
+    element: <IssueDetail />,
   },
 ];
 
