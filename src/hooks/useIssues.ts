@@ -33,8 +33,6 @@ export function useIssues() {
     const res = await getIssueList(pathParam, queryParam);
     setIssueList(res);
     setIsLoading(false);
-
-    console.log('fetchIssue');
   };
 
   const fetchMoreIssues = async () => {
@@ -49,8 +47,6 @@ export function useIssues() {
     const NEXT_PAGE = Math.floor(issueList.length / PER_PAGE) + 1;
 
     const res = await getIssueList(pathParam, { ...queryParam, page: NEXT_PAGE });
-
-    console.log('fetchMoreIssue:', issueList.length, NEXT_PAGE, issueList, res);
 
     if (res.length === 0) {
       setIsEnd(true);
