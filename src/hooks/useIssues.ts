@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { IssuesContext } from '../contexts/IssuesContextProvider';
-import { GetIssuesPathParam, GetIssuesQueryParam, getIssueList } from '../apis/issues';
+import { getIssueList } from '../apis/issues';
+import { GetIssuesPathParam, GetIssuesQueryParam } from '../types/issuesApi';
 
 /* Initial data for api call */
 const PAGE = 1;

@@ -1,15 +1,19 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
+import CommonPage from './pages/CommonPage';
+import IssueListPage from './pages/IssueListPage';
+import IssueDetailPage from './pages/IssueDetailPage';
+import Error from './components/Error';
 
 const route = [
   {
     path: '',
-    element: <div>issue list</div>,
-    errorElement: <div>error</div>,
-  },
-  {
-    path: 'issues/:id',
-    element: <div>issue</div>,
+    element: <CommonPage />,
+    errorElement: <Error />,
+    children: [
+      { path: '', element: <IssueListPage /> },
+      { path: 'issues/:id', element: <IssueDetailPage /> },
+    ],
   },
 ];
 
