@@ -46,9 +46,11 @@ npm start
 
 ## 배포 링크
 
+[바로가기](https://pre-onboarding-11th-3-4.netlify.app/)
 
 ## 기술 스택
 
+<img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=black"/> <img src="https://img.shields.io/badge/typescript-%23007ACC.svg?style=flat-square&logo=typescript&logoColor=white"/> <img src="https://img.shields.io/badge/styled components-DB7093?style=flat-square&logo=styled-components&logoColor=white"/> <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat-square&logo=axios&logoColor=white"/> <img src="https://img.shields.io/badge/React Router-CA4245?style=flat-square&logo=reactrouter&logoColor=white"/> <img src="https://img.shields.io/badge/ESLint-4B32C3?style=flat-square&logo=eslint&logoColor=white"/> <img src="https://img.shields.io/badge/Prettier-F7B93E?style=flat-square&logo=prettier&logoColor=black"/> <img src="https://img.shields.io/badge/Netlify-00C7B7?style=flat-square&logo=&logoColor=black"/>
 
 ## 팀규칙
 
@@ -68,7 +70,39 @@ npm start
 ### 2. 파일/폴더 구조
 
 ```
-
+📦src
+ ┣ 📂apis
+ ┃ ┣ 📜axios.ts
+ ┃ ┣ 📜issues.ts
+ ┃ ┗ 📜util.ts
+ ┣ 📂components
+ ┃ ┣ 📜AdBlock.tsx
+ ┃ ┣ 📜Footer.tsx
+ ┃ ┣ 📜Header.tsx
+ ┃ ┣ 📜IssueBlock.tsx
+ ┃ ┗ 📜LoadSpinner.tsx
+ ┣ 📂constant
+ ┃ ┗ 📜pathParam.ts
+ ┣ 📂contexts
+ ┃ ┣ 📜IssueContextProvider.tsx
+ ┃ ┗ 📜IssuesContextProvider.tsx
+ ┣ 📂hooks
+ ┃ ┣ 📜useIntersectionObserver.ts
+ ┃ ┣ 📜useIssue.ts
+ ┃ ┗ 📜useIssues.ts
+ ┣ 📂pages
+ ┃ ┣ 📜Error.tsx
+ ┃ ┣ 📜IssueDetail.tsx
+ ┃ ┗ 📜IssueList.tsx
+ ┣ 📂types
+ ┃ ┗ 📜issuesApi.ts
+ ┣ 📂utils
+ ┃ ┗ 📜formatTime.ts
+ ┣ 📜App.tsx
+ ┣ 📜GlobalStyle.tsx
+ ┣ 📜index.tsx
+ ┣ 📜palette.ts
+ ┗ 📜router.tsx
 ```
 
 ### 3. Style 컨벤션
